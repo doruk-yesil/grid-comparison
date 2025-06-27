@@ -1202,5 +1202,17 @@
     }
   ],
   "emplyeees": [
+    {
+      "id": 1000,
+      "name": "Dick Wickens",
+      "recruitmentDate": "2015-07-25",
+      "salary": 56834,
+      "department": "Manager",
+      "availability": false,
+      "email": "dick.wickens@example.com",
+      "location": "Tokyo",
+      "telephone": "+33-1-42-68-53-07",
+      "assets": ["Laptop", "Printer", "Mouse", "Tablet"]
+    }
   ]
 }

@@ -1,0 +1,30 @@
+{
+  "name": "grid-comparison",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "api": "json-server --watch db.json --port 3000"
+  },
+  "dependencies": {
+    "@primeuix/themes": "^1.1.2",
+    "@syncfusion/ej2-vue-grids": "^30.1.37",
+    "@syncfusion/ej2-vue-navigations": "^30.1.37",
+    "ag-grid-enterprise": "^34.0.0",
+    "ag-grid-vue3": "^34.0.0",
+    "bootstrap": "^5.3.7",
+    "json-server": "^1.0.0-beta.3",
+    "primevue": "^4.3.5",
+    "vue": "^3.5.17"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.0",
+    "vue-tsc": "^2.2.10"
+  }
+}

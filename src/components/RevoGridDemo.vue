@@ -12,7 +12,6 @@ export default defineComponent({
     onMounted(async () => {
       const res = await fetch('http://localhost:3000/employees')
       const data = await res.json()
-      console.log('Fetched:', data)
 
       if (!data || data.length === 0) return;
 

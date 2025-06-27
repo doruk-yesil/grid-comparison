@@ -2,8 +2,9 @@
 import SyncfusionDemo from './components/SyncfusionDemo.vue'
 import AgGridDemo from './components/Ag-GridDemo.vue'
 import PrimeVueDemo from './components/PrimeVueDemo.vue'
+import TanStackDemo from './components/TanStackDemo.vue'
 import { ref } from 'vue'
-const gridSelected = ref('primevue')
+const gridSelected = ref('tanstack')
 const handleGridSelection=(grid: string)=>{
   gridSelected.value=grid
 }
@@ -17,7 +18,7 @@ const handleGridSelection=(grid: string)=>{
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('syncfusion')">Syncfusion</button>
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('ag-grid')">Ag-Grid</button>
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('primevue')">PrimeVue</button>
-        <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('...')">...</button>
+        <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('tanstack')">TanStack</button>
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection(',,,')">,,,</button>
       </div>
       <div class="col-12">
@@ -33,8 +34,9 @@ const handleGridSelection=(grid: string)=>{
           <h2 class="text-center m-2">PrimeVue Grid</h2>
           <PrimeVueDemo/>
         </div>
-        <div v-else-if="gridSelected==='...'">
-          <h2 class="text-center m-2">aaa Grid</h2>
+        <div v-else-if="gridSelected==='tanstack'">
+          <h2 class="text-center m-2">TanStack Grid</h2>
+          <TanStackDemo/>
         </div>
         <div v-else-if="gridSelected===',,,'">
           <h2 class="text-center m-2">bbb Grid</h2>

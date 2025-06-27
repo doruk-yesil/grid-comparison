@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@primeuix/themes": "^1.1.2",
+    "@revolist/vue3-datagrid": "^4.15.8",
     "@syncfusion/ej2-vue-grids": "^30.1.37",
     "@syncfusion/ej2-vue-navigations": "^30.1.37",
     "@tanstack/vue-table": "^8.21.3",

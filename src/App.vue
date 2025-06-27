@@ -4,8 +4,9 @@ import AgGridDemo from './components/Ag-GridDemo.vue'
 import PrimeVueDemo from './components/PrimeVueDemo.vue'
 import TanStackDemo from './components/TanStackDemo.vue'
 import GridJsDemo from './components/GridJsDemo.vue'
+import RevoGridDemo from './components/RevoGridDemo.vue'
 import { ref } from 'vue'
-const gridSelected = ref('gridjs')
+const gridSelected = ref('revogrid')
 const handleGridSelection=(grid: string)=>{
   gridSelected.value=grid
 }
@@ -21,6 +22,7 @@ const handleGridSelection=(grid: string)=>{
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('primevue')">PrimeVue</button>
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('tanstack')">TanStack</button>
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('gridjs')">Grid.js</button>
+        <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('revogrid')">RevoGrid</button>
       </div>
       <div class="col-12">
         <div v-if="gridSelected==='syncfusion'">
@@ -42,6 +44,10 @@ const handleGridSelection=(grid: string)=>{
         <div v-else-if="gridSelected==='gridjs'">
           <h2 class="text-center m-2">Grid.js Grid</h2>
           <GridJsDemo/>
+        </div>
+        <div v-else-if="gridSelected==='revogrid'">
+          <h2 class="text-center m-2">RevoGrid Grid</h2>
+          <RevoGridDemo/>
         </div>
       </div>
     </div>

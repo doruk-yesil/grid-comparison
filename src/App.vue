@@ -5,7 +5,6 @@ import PrimeVueDemo from './components/PrimeVueDemo.vue'
 import TanStackDemo from './components/TanStackDemo.vue'
 import GridJsDemo from './components/GridJsDemo.vue'
 import RevoGridDemo from './components/RevoGridDemo.vue'
-import DataGridDemo from './components/DataGridDemo.vue'
 import { ref } from 'vue'
 const gridSelected = ref('datagrid')
 const handleGridSelection=(grid: string)=>{
@@ -53,7 +52,6 @@ const handleGridSelection=(grid: string)=>{
         </div>
         <div v-else-if="gridSelected==='datagrid'">
           <h2 class="text-center m-2">DataGrid Grid</h2>
-          <DataGridDemo/>
         </div>
       </div>
     </div>

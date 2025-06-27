@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted, h } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
@@ -21,32 +21,8 @@ export default defineComponent({
       }
     })
 
-    const availabilityOptions = ref([
-      { label: 'True', value: true },
-      { label: 'False', value: false }
-    ])
-
-    const availabilityFilterTemplate = (options: any) => {
-      return h(
-        'select',
-        {
-          class: 'p-dropdown',
-          style: 'width: 100%',
-          onChange: (e: Event) =>
-            options.filterCallback((e.target as HTMLSelectElement).value === 'true')
-        },
-        [
-          h('option', { value: '' }, 'All'),
-          ...availabilityOptions.value.map((opt) =>
-            h('option', { value: opt.value }, opt.label)
-          )
-        ]
-      )
-    }
-
     return {
-      employees,
-      availabilityFilterTemplate
+      employees
     }
   }
 })
@@ -64,18 +40,12 @@ export default defineComponent({
       showGridlines
       tableStyle="min-width: 1200px"
     >
-      <Column field="id" header="Employee ID" sortable filter />
-      <Column field="name" header="Full Name" sortable filter />
-      <Column field="email" header="Email" filter />
-      <Column field="department" header="Department" sortable filter />
-      <Column field="salary" header="Salary" sortable filter />
-      <Column
-        field="availability"
-        header="Available"
-        filter
-        :showFilterMatchModes="false"
-        :filterElement="availabilityFilterTemplate"
-      />
+      <Column field="id" header="Employee ID" sortable />
+      <Column field="name" header="Full Name" sortable />
+      <Column field="email" header="Email" sortable />
+      <Column field="department" header="Department" sortable />
+      <Column field="salary" header="Salary" sortable />
+      <Column field="availability" header="Available" sortable/>
     </DataTable>
   </div>
 </template>

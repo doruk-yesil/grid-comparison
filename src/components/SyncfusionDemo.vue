@@ -168,11 +168,6 @@ export default {
       .then(json => {
         this.gridData = json;
       });
-      fetch('http://localhost:3000/employeees')
-      .then(res => res.json())
-      .then(json => {
-        this.destGridData = json;
-      });
   },
   methods:{
     toolbarClick: function (args: ClickEventArgs) {

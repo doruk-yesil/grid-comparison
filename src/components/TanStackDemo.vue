@@ -5,8 +5,10 @@ import {
   useVueTable,
   getCoreRowModel,
   getSortedRowModel,
+  getFilteredRowModel,
   type ColumnDef,
-  type SortingState
+  type SortingState,
+  type ColumnFiltersState
 } from '@tanstack/vue-table'
 
 type Employee = {
@@ -25,8 +27,9 @@ export default defineComponent({
   name: 'TanStackDemo',
   setup() {
     const employees = ref<Employee[]>([])
-    const table = ref<ReturnType<typeof useVueTable<Employee>>>()
     const sorting = ref<SortingState>([])
+    const columnFilters = ref<ColumnFiltersState>([])
+    const table = ref<ReturnType<typeof useVueTable<Employee>>>()
 
     const columnHelper = createColumnHelper<Employee>()
     const columns: ColumnDef<Employee, any>[] = [
@@ -44,17 +47,24 @@ export default defineComponent({
         employees.value = data
 
         table.value = useVueTable({
-          data: employees,
+          data: employees.value,
           columns,
           state: {
             get sorting() {
               return sorting.value
+            },
+            get columnFilters() {
+              return columnFilters.value
             }
           },
           onSortingChange: updater => {
             sorting.value = typeof updater === 'function' ? updater(sorting.value) : updater
           },
+          onColumnFiltersChange: updater => {
+            columnFilters.value = typeof updater === 'function' ? updater(columnFilters.value) : updater
+          },
           getSortedRowModel: getSortedRowModel(),
+          getFilteredRowModel: getFilteredRowModel(),
           getCoreRowModel: getCoreRowModel()
         })
       } catch (err) {
@@ -71,6 +81,19 @@ export default defineComponent({
 
 <template>
   <div class="tanstack-demo">
+    <div v-if="table" class="filters" style="margin-bottom: 1rem;">
+      <input
+        v-for="col in ['name', 'department']"
+        :key="col"
+        :placeholder="`Filter ${col}`"
+        type="text"
+        class="filter-input"
+        :value="table.getColumn(col)?.getFilterValue() ?? ''"
+        @input="e => table?.getColumn(col)?.setFilterValue(e.target && 'value' in e.target ? e.target.value : '')"
+      />
+    </div>
+
+
     <table v-if="table">
       <thead>
         <tr>
@@ -115,5 +138,10 @@ td {
   border: 1px solid #aaa;
   padding: 0.5rem;
   text-align: left;
+}
+.filter-input {
+  margin-right: 1rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
 }
 </style>

@@ -16,7 +16,7 @@ export default defineComponent({
       { field: 'recruitmentDate', headerName: 'Recruited On', enableRowGroup: true },
       { field: 'salary', headerName: 'Salary', enableRowGroup: true },
       { field: 'location', headerName: 'Location', enableRowGroup: true },
-      { field: 'department', headerName: 'Department', enableRowGroup: true, rowGroup: true },
+      { field: 'department', headerName: 'Department', enableRowGroup: true},
       { field: 'telephone', headerName: 'Telephone', enableRowGroup: true },
       { field: 'assets', headerName: 'Assets', enableRowGroup: true },
       { field: 'availability', headerName: 'Available', enableRowGroup: true }

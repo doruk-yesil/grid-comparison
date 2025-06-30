@@ -3,10 +3,12 @@ import './style.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import App from './App.vue'
 import { registerLicense } from '@syncfusion/ej2-base'
-import { ModuleRegistry } from "ag-grid-community";
+import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
 import { AllEnterpriseModule, LicenseManager } from "ag-grid-enterprise";
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
+import { Quasar } from 'quasar'
+import 'devextreme/dist/css/dx.light.css';
 
 
 ModuleRegistry.registerModules([AllEnterpriseModule]);
@@ -19,5 +21,8 @@ const app=createApp(App)
 app.use(PrimeVue, {
   unstyled: false,
   pt: Aura
+})
+app.use(Quasar, {
+  plugins: {},
 })
 app.mount('#app')

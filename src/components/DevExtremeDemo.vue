@@ -118,3 +118,7 @@ async function onExporting(e: any) {
 }
 
 </script>
+
+<style>
+@import 'devextreme/dist/css/dx.light.css';
+</style>

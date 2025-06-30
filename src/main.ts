@@ -8,7 +8,6 @@ import { AllEnterpriseModule, LicenseManager } from "ag-grid-enterprise";
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import { Quasar } from 'quasar'
-import 'devextreme/dist/css/dx.light.css';
 
 
 ModuleRegistry.registerModules([AllEnterpriseModule]);

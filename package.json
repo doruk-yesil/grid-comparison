@@ -14,6 +14,7 @@
     "@revolist/vue3-datagrid": "^4.15.8",
     "@syncfusion/ej2-vue-grids": "^30.1.37",
     "@syncfusion/ej2-vue-navigations": "^30.1.37",
+    "@syncfusion/ej2-vue-popups": "^30.1.37",
     "@tanstack/vue-table": "^8.21.3",
     "ag-grid-enterprise": "^34.0.0",
     "ag-grid-vue3": "^34.0.0",

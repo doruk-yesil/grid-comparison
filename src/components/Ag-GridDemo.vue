@@ -14,7 +14,7 @@ export default defineComponent({
       { field: 'name', headerName: 'Full Name', enableRowGroup: true },
       { field: 'email', headerName: 'E-mail', enableRowGroup: true },
       { field: 'recruitmentDate', headerName: 'Recruited On', enableRowGroup: true },
-      { field: 'salary', headerName: 'Salary', enableRowGroup: true },
+      { field: 'salary', headerName: 'Salary', enableRowGroup: true, enableValue: true, aggFunc: 'sum' },
       { field: 'location', headerName: 'Location', enableRowGroup: true },
       { field: 'department', headerName: 'Department', enableRowGroup: true},
       { field: 'telephone', headerName: 'Telephone', enableRowGroup: true },
@@ -32,6 +32,9 @@ export default defineComponent({
 
     const rowData = ref([])
     const gridApi = ref<GridApi>()
+    const statusBar = {
+      statusPanels: [{ statusPanel: 'agAggregationComponent', align: 'right' }]
+    }
 
     const onGridReady = (params: any) => {
       gridApi.value = params.api
@@ -48,7 +51,8 @@ export default defineComponent({
       columnDefs,
       defaultColDef,
       rowData,
-      onGridReady
+      onGridReady,
+      statusBar
     }
   }
 })
@@ -68,6 +72,7 @@ export default defineComponent({
       :rowGroupPanelShow="'always'"
       :sideBar="true"
       @grid-ready="onGridReady"
+      :status-bar="statusBar"
     />
   </div>
 </template>

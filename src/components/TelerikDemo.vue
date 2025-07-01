@@ -9,6 +9,7 @@
     @filterchange="onFilterChange"
     :groupable="true"
     :reorderable="true"
+    :resizable="true"
   >
     <template #actionsTemplate="{ props }">
       <td class="k-command-cell">
@@ -82,14 +83,14 @@ export default defineComponent({
     );
 
     const columns: GridColumnProps[] = [
-      { field: 'id', title: 'ID', width: 90 },
-      { field: 'name', title: 'Name', width: 180 },
-      { field: 'email', title: 'E-mail', width: 220 },
-      { field: 'recruitmentDate', title: 'Date', width: 140, filter: 'date', format: '{0:yyyy-MM-dd}' },
-      { field: 'salary', title: 'Salary', width: 120, filter: 'numeric', format: '{0:c}' },
-      { field: 'location', title: 'Location', width: 150 },
-      { field: 'department', title: 'Department', width: 150 },
-      { title: 'Actions', width: 200, cell: 'actionsTemplate' }
+      { field: 'id', title: 'ID', width: 50, resizable: false },
+      { field: 'name', title: 'Name', width: 180, minResizableWidth: 100 },
+      { field: 'email', title: 'E-mail', width: 220, minResizableWidth: 150 },
+      { field: 'recruitmentDate', title: 'Date', width: 140, minResizableWidth: 100, filter: 'date', format: '{0:yyyy-MM-dd}' },
+      { field: 'salary', title: 'Salary', width: 120, minResizableWidth: 80, filter: 'numeric', format: '{0:c}' },
+      { field: 'location', title: 'Location', width: 150, minResizableWidth: 100 },
+      { field: 'department', title: 'Department', width: 150, minResizableWidth: 100 },
+      { title: 'Actions', width: 100, resizable: false, cell: 'actionsTemplate' }
     ];
 
     const pageable = ref(true);

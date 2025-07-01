@@ -11,6 +11,13 @@
   },
   "dependencies": {
     "@primeuix/themes": "^1.1.2",
+    "@progress/kendo-data-query": "^1.7.1",
+    "@progress/kendo-licensing": "^1.6.0",
+    "@progress/kendo-svg-icons": "^4.5.0",
+    "@progress/kendo-theme-default": "^11.0.2",
+    "@progress/kendo-vue-dialogs": "^6.4.1",
+    "@progress/kendo-vue-grid": "^6.4.1",
+    "@progress/kendo-vue-intl": "^6.4.1",
     "@revolist/vue3-datagrid": "^4.15.8",
     "@syncfusion/ej2-vue-grids": "^30.1.37",
     "@syncfusion/ej2-vue-navigations": "^30.1.37",

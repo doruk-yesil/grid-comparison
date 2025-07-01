@@ -8,6 +8,7 @@ import { AllEnterpriseModule, LicenseManager } from "ag-grid-enterprise";
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import { Quasar } from 'quasar'
+import '@progress/kendo-theme-default/dist/all.css';
 
 
 ModuleRegistry.registerModules([AllEnterpriseModule]);
@@ -24,4 +25,5 @@ app.use(PrimeVue, {
 app.use(Quasar, {
   plugins: {},
 })
+
 app.mount('#app')

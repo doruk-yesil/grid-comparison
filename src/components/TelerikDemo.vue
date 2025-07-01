@@ -1,18 +1,26 @@
 <template>
   <grid
-    :data-items="filteredData"
+    :data-items="gridView.data"
     :columns="columns"
     :pageable="pageable"
+    :total="gridView.total"
+    :skip="skip"
+    :take="take"
     :style="{ height: '600px' }"
     :column-menu="true"
     :filter="filter"
     @filterchange="onFilterChange"
     :groupable="true"
+    :group="group"
+    :expand-field="'expanded'"
+    @datastatechange="onDataStateChange"
+    @expandchange="onExpandChange"
+    @pagechange="onPageChange"
     :reorderable="true"
     :resizable="true"
   >
     <template #actionsTemplate="{ props }">
-      <td class="k-command-cell">
+      <td v-if="props.rowType === 'data'" class="k-command-cell">
         <button class="k-button k-button-md k-button-solid k-button-solid-primary" @click="editItem(props.dataItem)">Edit</button>
         <button class="k-button k-button-md k-button-solid k-button-solid-base" @click="removeItem(props.dataItem)">Remove</button>
       </td>
@@ -46,12 +54,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, computed } from 'vue';
 import { Grid, type GridColumnProps } from '@progress/kendo-vue-grid';
 import { Dialog as KDialog, DialogActionsBar } from '@progress/kendo-vue-dialogs';
 import { Input as KInput, NumericTextBox } from '@progress/kendo-vue-inputs';
 import { Button as KButton } from '@progress/kendo-vue-buttons';
-import { filterBy } from '@progress/kendo-data-query';
+import { process, type State, type GroupDescriptor, type DataResult } from '@progress/kendo-data-query';
 
 interface Employee {
   id: number;
@@ -77,12 +85,43 @@ export default defineComponent({
     const gridData = ref<Employee[]>([]);
     const filter = ref<any>(null);
     const employeeInEdit = ref<Employee | null>(null);
+    const pageable = ref({
+      buttonCount: 5,
+      pageSizes: [5, 10, 20, 50],
+      info: true,
+      type: 'numeric',
+      previousNext: true
+    });
+    const skip = ref(0);
+    const take = ref(10);
+    const group = ref<GroupDescriptor[]>([{ field: 'department' }]);
 
-    const filteredData = computed(() =>
-      filter.value ? filterBy(gridData.value, filter.value) : gridData.value
-    );
+    const gridView = ref<DataResult>({ data: [], total: 0 });
 
-    const columns: GridColumnProps[] = [
+    const getData = () => {
+      gridView.value = process(gridData.value, {
+        group: group.value,
+        filter: filter.value,
+        take: take.value,
+        skip: skip.value
+      });
+    };
+
+    const onDataStateChange = (e: { data: State }) => {
+      group.value = e.data.group || [];
+      skip.value = e.data.skip ?? 0;
+      take.value = e.data.take ?? 10;
+      filter.value = e.data.filter ?? null;
+      getData();
+    };
+
+    const onExpandChange = (e: any) => {
+      if (e.dataItem) {
+        e.dataItem[e.target.$props.expandField] = e.value;
+      }
+    };
+
+    const allColumns: GridColumnProps[] = [
       { field: 'id', title: 'ID', width: 50, resizable: false },
       { field: 'name', title: 'Name', width: 180, minResizableWidth: 100 },
       { field: 'email', title: 'E-mail', width: 220, minResizableWidth: 150 },
@@ -93,10 +132,15 @@ export default defineComponent({
       { title: 'Actions', width: 100, resizable: false, cell: 'actionsTemplate' }
     ];
 
-    const pageable = ref(true);
+    const columns = computed(() => {
+      const groupedFields = group.value.map(g => g.field);
+      return allColumns.filter(col => !('field' in col) || !groupedFields.includes(col.field!));
+    });
+
 
     const onFilterChange = (e: any) => {
       filter.value = e.filter;
+      getData();
     };
 
     const editItem = (item: Employee) => {
@@ -113,14 +157,23 @@ export default defineComponent({
         gridData.value.splice(index, 1, { ...employeeInEdit.value });
       }
       employeeInEdit.value = null;
+      getData();
     };
 
     const removeItem = (item: Employee) => {
       const confirmed = confirm(`Are you sure to delete ${item.name}?`);
       if (confirmed) {
         gridData.value = gridData.value.filter(e => e.id !== item.id);
+        getData();
       }
     };
+
+    const onPageChange = (e: any) => {
+      skip.value = e.page.skip;
+      take.value = e.page.take;
+      getData();
+    };
+
 
     onMounted(async () => {
       const res = await fetch('http://localhost:3000/employees');
@@ -130,11 +183,12 @@ export default defineComponent({
         recruitmentDate: new Date(e.recruitmentDate),
         salary: Number(e.salary) || 0
       }));
+      getData();
     });
 
     return {
       gridData,
-      filteredData,
+      gridView,
       columns,
       pageable,
       filter,
@@ -143,7 +197,13 @@ export default defineComponent({
       removeItem,
       employeeInEdit,
       cancelEdit,
-      saveEdit
+      saveEdit,
+      group,
+      take,
+      skip,
+      onDataStateChange,
+      onExpandChange,
+      onPageChange
     };
   }
 });

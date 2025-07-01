@@ -46,19 +46,34 @@ export default defineComponent({
         })
         .catch(err => console.error('Data fetch error:', err))
     }
+    const onExportCSV = () => {
+      gridApi.value?.exportDataAsCsv()
+    }
 
+    const onExportExcel = () => {
+      gridApi.value?.exportDataAsExcel({
+        fileName: 'employees.xlsx',
+        sheetName: 'Employees'
+      })
+    }
     return {
       columnDefs,
       defaultColDef,
       rowData,
       onGridReady,
-      statusBar
+      statusBar,
+      onExportCSV,
+      onExportExcel
     }
   }
 })
 </script>
 
 <template>
+  <div class="toolbar text-end">
+    <KButton @click="onExportCSV" theme-color="primary" class="btn btn-secondary m-1">Export CSV</KButton>
+    <KButton @click="onExportExcel" theme-color="primary" class="btn btn-secondary m-1">Export Excel</KButton>
+  </div>
   <div class="ag-theme-alpine" style="height: 600px; width: 100%">
     <ag-grid-vue
       class="ag-theme-alpine"

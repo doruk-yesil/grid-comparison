@@ -29,6 +29,7 @@
         :selectionSettings="selectionOptions"
         :rowDropSettings="srcDropOptions"
         :allowRowDragAndDrop="true"
+        :pdfHeaderQueryCellInfo="pdfHeaderQueryCellInfo"
       >
         <e-columns>
           <e-column field="id" headerText="Employee ID" minWidth='100' width="120" textAlign="Right" :isPrimaryKey="true" :validationRules="idRules" />
@@ -76,6 +77,7 @@
         :selectionSettings="selectionOptions"
         :rowDropSettings="srcDropOptions"
         :allowRowDragAndDrop="true"
+        :pdfHeaderQueryCellInfo="pdfHeaderQueryCellInfo"
       >
         <e-columns>
           <e-column field="id" headerText="Employee ID" minWidth='100' width="120" textAlign="Right" :isPrimaryKey="true" :validationRules="idRules" />
@@ -172,18 +174,33 @@ export default {
       });
   },
   methods:{
-    toolbarClick: function (args: ClickEventArgs) {
-      switch (args.item.id) {
-        case 'default-aggregate-grid_pdfexport':
-          (this.$refs.grid as any).pdfExport();
-          break;
-        case 'default-aggregate-grid_excelexport':
-          (this.$refs.grid as any).excelExport();
-          break;
-        case 'default-aggregate-grid_csvexport':
-          (this.$refs.grid as any).csvExport();
-          break;
-        }
+    toolbarClick(args: ClickEventArgs) {
+      if (args.item.id === 'default-aggregate-grid_pdfexport') {
+        const grid = this.$refs.grid as any;
+        const columns = grid.getColumns().map((col: any) => ({
+          field: col.field,
+          headerText: col.headerText,
+          width: 100
+        }));
+        const exportProperties = {
+          pageOrientation: 'Landscape',
+          fileName: 'employees.pdf',
+          columns,
+          fitColumnsToPage: true,
+          exportType: 'AllPages',
+        };
+        grid.pdfExport(exportProperties);
+      }
+      else if (args.item.id === 'default-aggregate-grid_excelexport') {
+        (this.$refs.grid as any).excelExport();
+      } else if (args.item.id === 'default-aggregate-grid_csvexport') {
+        (this.$refs.grid as any).csvExport();
+      }
+    },
+    pdfHeaderQueryCellInfo(args: any) {
+      if (args.cell.row && args.cell.row.pdfGrid) {
+        args.cell.row.pdfGrid.repeatHeader = true;
+      }
     }
   },
   provide: {

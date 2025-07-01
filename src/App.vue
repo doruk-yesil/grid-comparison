@@ -9,7 +9,7 @@ import QuasarDemo from './components/QuasarDemo.vue'
 import DevExtremeDemo from './components/DevExtremeDemo.vue'
 import TelerikDemo from './components/TelerikDemo.vue'
 import { ref } from 'vue'
-const gridSelected = ref('telerik')
+const gridSelected = ref('syncfusion')
 const handleGridSelection=(grid: string)=>{
   gridSelected.value=grid
 }

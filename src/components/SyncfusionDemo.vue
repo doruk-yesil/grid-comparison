@@ -29,7 +29,7 @@
         :selectionSettings="selectionOptions"
         :rowDropSettings="srcDropOptions"
         :allowRowDragAndDrop="true"
-        :pdfHeaderQueryCellInfo="pdfHeaderQueryCellInfo"
+        :pdfQueryCellInfo="pdfQueryCellInfo"
       >
         <e-columns>
           <e-column field="id" headerText="Employee ID" minWidth='100' width="120" textAlign="Right" :isPrimaryKey="true" :validationRules="idRules" />
@@ -77,7 +77,7 @@
         :selectionSettings="selectionOptions"
         :rowDropSettings="srcDropOptions"
         :allowRowDragAndDrop="true"
-        :pdfHeaderQueryCellInfo="pdfHeaderQueryCellInfo"
+        :pdfQueryCellInfo="pdfQueryCellInfo"
       >
         <e-columns>
           <e-column field="id" headerText="Employee ID" minWidth='100' width="120" textAlign="Right" :isPrimaryKey="true" :validationRules="idRules" />
@@ -174,32 +174,52 @@ export default {
       });
   },
   methods:{
+     pdfQueryCellInfo(args: any) {
+        if (args.cell.row && args.cell.row.pdfGrid) {
+          args.cell.row.pdfGrid.repeatHeader = true;
+        }
+        if (args.column.field === 'salary' && args.data.salary < 50000) {
+          args.style = {
+            textBrushColor: '#FF0000'
+          };
+        }
+      },
     toolbarClick(args: ClickEventArgs) {
       if (args.item.id === 'default-aggregate-grid_pdfexport') {
         const grid = this.$refs.grid as any;
+
         const columns = grid.getColumns().map((col: any) => ({
           field: col.field,
           headerText: col.headerText,
           width: 100
         }));
+
         const exportProperties = {
           pageOrientation: 'Landscape',
           fileName: 'employees.pdf',
           columns,
           fitColumnsToPage: true,
           exportType: 'AllPages',
+          showHeader: true,
+          footer: {
+            fromBottom: 20,
+            height: 50,
+            contents: [
+              {
+                type: 'PageNumber',
+                pageNumberType: 'LowerCenter',
+                position: { x: 500, y: 30 },
+                style: { textBrushColor: '#000000', fontSize: 10 }
+              }
+            ]
+          }
         };
+
         grid.pdfExport(exportProperties);
-      }
-      else if (args.item.id === 'default-aggregate-grid_excelexport') {
+      } else if (args.item.id === 'default-aggregate-grid_excelexport') {
         (this.$refs.grid as any).excelExport();
       } else if (args.item.id === 'default-aggregate-grid_csvexport') {
         (this.$refs.grid as any).csvExport();
-      }
-    },
-    pdfHeaderQueryCellInfo(args: any) {
-      if (args.cell.row && args.cell.row.pdfGrid) {
-        args.cell.row.pdfGrid.repeatHeader = true;
       }
     }
   },

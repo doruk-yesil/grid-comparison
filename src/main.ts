@@ -3,7 +3,7 @@ import './style.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import App from './App.vue'
 import { registerLicense } from '@syncfusion/ej2-base'
-import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
+import { ModuleRegistry } from "ag-grid-community";
 import { AllEnterpriseModule, LicenseManager } from "ag-grid-enterprise";
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';

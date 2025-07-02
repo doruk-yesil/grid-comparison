@@ -28,9 +28,10 @@
         :rowDropSettings="srcDropOptions"
         :allowRowDragAndDrop="true"
         :pdfQueryCellInfo="pdfQueryCellInfo"
+        :actionComplete="onActionComplete"
       >
         <e-columns>
-          <e-column field="id" headerText="Employee ID" minWidth='100' width="120" textAlign="Right" :isPrimaryKey="true" :validationRules="idRules" />
+          <e-column field="id" headerText="Employee ID" minWidth='100' width="120" textAlign="Right" :isPrimaryKey="true" :validationRules="idRules" :allowGrouping="false"/>
           <e-column field="name" headerText="Full Name" minWidth='100' width="200" textAlign="Left" :validationRules="nameRules" />
           <e-column field="email" headerText="E-mail" minWidth='100' width="120" textAlign="Center"/>
           <e-column field="recruitmentDate" headerText="Recruited On" minWidth='100' width="150" textAlign="Center" type="date" format="yMd"/>
@@ -38,20 +39,7 @@
           <e-column field="location" headerText="Location" minWidth='100' width="120" textAlign="Center"/>
           <e-column field="department" headerText="Department" minWidth='100' width="120" textAlign="Center"/>          
           <e-column field="telephone" headerText="Telephone" minWidth='100' width="120" textAlign="Center"/>
-          <e-column
-            field="assets"
-            headerText="Assets"
-            minWidth="100"
-            width="200"
-            textAlign="Center"
-            :allowFiltering="false"
-            :allowSorting="false"
-            :template="'assetsTemplate'"
-          />
-
-          <template v-slot:assetsTemplate="{ data }">
-            <span>{{ Array.isArray(data.assets) ? data.assets.join(', ') : data.assets }}</span>
-          </template>
+          <e-column field="assets" headerText="Assets" minWidth="100" width="200" textAlign="Center" :allowFiltering="false" :allowSorting="false" :allowGrouping="false"/>
           <e-column field="availability" headerText="Available" minWidth='100' width="120" textAlign="Center" type="boolean" />
         </e-columns>
         <e-aggregates>
@@ -90,13 +78,13 @@
         :pdfQueryCellInfo="pdfQueryCellInfo"
       >
         <e-columns>
-          <e-column field="id" headerText="Employee ID" minWidth='100' width="120" textAlign="Right" :isPrimaryKey="true" :validationRules="idRules" />
-          <e-column field="name" headerText="Full Name" minWidth='100' width="200" textAlign="Left" :validationRules="nameRules" />
-          <e-column field="email" headerText="E-mail" minWidth='100' width="120" textAlign="Center"/>
+          <e-column field="id" headerText="Employee ID" minWidth='100' width="120" textAlign="Right" :isPrimaryKey="true" :validationRules="idRules" :allowGrouping="false"/>
+          <e-column field="name" headerText="Full Name" minWidth='100' width="200" textAlign="Left" :validationRules="nameRules" :allowGrouping="false"/>
+          <e-column field="email" headerText="E-mail" minWidth='100' width="120" textAlign="Center" :allowGrouping="false"/>
           <e-column field="recruitmentDate" headerText="Recruited On" minWidth='100' width="150" textAlign="Center" type="date" />
           <e-column field="salary" headerText="Salary" minWidth='100' width="160" textAlign="Right" editType="numericedit" :validationRules="salaryRules" />
           <e-column headerText='Workplace' :columns='workPlaceColumns' textAlign='Center'></e-column>
-          <e-column field="telephone" headerText="Telephone" minWidth='100' width="120" textAlign="Center"/>
+          <e-column field="telephone" headerText="Telephone" minWidth='100' width="120" textAlign="Center" :allowGrouping="false"/>
           <e-column field="assets" headerText="Assets" minWidth='100' width="200" textAlign="Center"/>
           <e-column field="availability" headerText="Available" minWidth='100' width="120" textAlign="Center" type="boolean" />
         </e-columns>
@@ -164,7 +152,7 @@ export default {
       pageSettings: { pageCount: 3, pageSizes: [10, 25, 50, 100] },
       loadingIndicator: { indicatorType: 'Shimmer' },
       groupOptions: { columns: [] },
-      toolbar: ['Add', 'Edit', 'Delete', 'Update', 'Cancel', 'Search', 'ExcelExport', 'PdfExport', 'CsvExport'],
+      toolbar: ['Add', 'Edit', 'Delete', 'Search', 'ExcelExport', 'PdfExport', 'CsvExport'],
       workPlaceColumns: [
                 { field:"location", headerText:"Location", minWidth:'100', width:"120", textAlign:"Center"},
                 { field:"department", headerText:"Department", minWidth:'100', width:"150", textAlign:"Left"}
@@ -175,20 +163,31 @@ export default {
     fetch('http://localhost:3000/employees')
       .then(res => res.json())
       .then(json => {
-        this.gridData = json;
+        this.gridData = json
       });
   },
   methods:{
-     pdfQueryCellInfo(args: any) {
-        if (args.cell.row && args.cell.row.pdfGrid) {
-          args.cell.row.pdfGrid.repeatHeader = true;
+    onActionComplete(args: any) {
+        if (args.requestType === 'grouping') {
+            console.log('Gruplama işlemi tamamlandı, grid yenileniyor...'); // Konsola çıktı alarak kontrol edin
+            const grid = this.$refs.grid as any;
+            if (grid && grid.groupSettings.columns && grid.groupSettings.columns.length > 0) {
+                grid.groupModule.groupColumn(grid.groupSettings.columns);
+            } else {
+                grid.refresh();
+            }
         }
-        if (args.column.field === 'salary' && args.data.salary < 50000) {
-          args.style = {
-            textBrushColor: '#FF0000'
-          };
-        }
-      },
+    },
+    pdfQueryCellInfo(args: any) {
+      if (args.cell.row && args.cell.row.pdfGrid) {
+        args.cell.row.pdfGrid.repeatHeader = true;
+      }
+      if (args.column.field === 'salary' && args.data.salary < 50000) {
+        args.style = {
+          textBrushColor: '#FF0000'
+        };
+      }
+    },
     toolbarClick(args: ClickEventArgs) {
       if (args.item.id === 'default-aggregate-grid_pdfexport') {
         const grid = this.$refs.grid as any;

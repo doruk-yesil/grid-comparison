@@ -8,6 +8,10 @@ import { AllEnterpriseModule, LicenseManager } from "ag-grid-enterprise";
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import { Quasar } from 'quasar'
+import quasarLang from 'quasar/lang/en-US'
+import quasarIconSet from 'quasar/icon-set/material-icons'
+import '@quasar/extras/material-icons/material-icons.css'
+import 'quasar/src/css/index.sass'
 import '@progress/kendo-theme-default/dist/all.css';
 
 
@@ -24,6 +28,8 @@ app.use(PrimeVue, {
 })
 app.use(Quasar, {
   plugins: {},
+  lang: quasarLang,
+  iconSet: quasarIconSet
 })
 
 app.mount('#app')

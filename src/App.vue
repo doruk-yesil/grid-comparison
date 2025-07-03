@@ -10,12 +10,12 @@ const gridKeys = [
   'revogrid',
   'quasar',
   'devextreme',
-  'telerik'
+  'telerik',
 ] as const
 
 type GridKey = typeof gridKeys[number]
 
-const gridSelected = ref<GridKey>('syncfusion')
+const gridSelected = ref<GridKey>('tanstack')
 
 const componentMap: Record<GridKey, () => Promise<any>> = {
   syncfusion: () => import('./components/SyncfusionDemo.vue'),
@@ -45,11 +45,11 @@ const handleGridSelection = (grid: GridKey) => {
     <div class="row">
       <div class="col-12 text-center mb-4">
         <h1 class="m-5">Welcome to Grid Comparison Demo</h1>
-        <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('primevue')">PrimeVue</button>
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('tanstack')">TanStack</button>
+        <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('primevue')">PrimeVue</button>
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('revogrid')">RevoGrid</button>
-        <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('quasar')">Quasar</button>
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('gridjs')">Grid.js</button>
+        <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('quasar')">Quasar</button>
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('devextreme')">DevExtreme</button>
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('telerik')">Telerik</button>
         <button class="btn btn-secondary m-1 px-4 py-2 fs-5" @click="handleGridSelection('syncfusion')">Syncfusion</button>

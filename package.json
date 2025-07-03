@@ -18,6 +18,7 @@
     "@progress/kendo-vue-dialogs": "^6.4.1",
     "@progress/kendo-vue-grid": "^6.4.1",
     "@progress/kendo-vue-intl": "^6.4.1",
+    "@quasar/extras": "^1.17.0",
     "@revolist/vue3-datagrid": "^4.15.8",
     "@syncfusion/ej2-vue-grids": "^30.1.37",
     "@syncfusion/ej2-vue-navigations": "^30.1.37",

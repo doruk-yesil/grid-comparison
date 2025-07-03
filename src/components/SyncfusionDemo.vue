@@ -46,6 +46,7 @@
           <e-aggregate>
             <e-columns>
               <e-column type="Sum" field="salary" format="C2" footerTemplate="Total: ${Sum}" />
+              <e-column type="Avg" field="salary" format="C2" footerTemplate="AVG: ${Avg}" />
             </e-columns>
           </e-aggregate>
         </e-aggregates>

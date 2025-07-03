@@ -10,14 +10,14 @@ export default defineComponent({
   },
   setup() {
     const columnDefs = ref<ColDef[]>([
-      { field: 'id', headerName: 'Employee ID', enableRowGroup: true },
+      { field: 'id', headerName: 'Employee ID', enableRowGroup: false },
       { field: 'name', headerName: 'Full Name', enableRowGroup: true },
-      { field: 'email', headerName: 'E-mail', enableRowGroup: true },
+      { field: 'email', headerName: 'E-mail', enableRowGroup: false },
       { field: 'recruitmentDate', headerName: 'Recruited On', enableRowGroup: true },
       { field: 'salary', headerName: 'Salary', enableRowGroup: true, enableValue: true, aggFunc: 'sum' },
       { field: 'location', headerName: 'Location', enableRowGroup: true },
       { field: 'department', headerName: 'Department', enableRowGroup: true},
-      { field: 'telephone', headerName: 'Telephone', enableRowGroup: true },
+      { field: 'telephone', headerName: 'Telephone', enableRowGroup: false },
       { field: 'assets', headerName: 'Assets', enableRowGroup: true },
       { field: 'availability', headerName: 'Available', enableRowGroup: true }
     ])
